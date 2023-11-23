@@ -1,50 +1,54 @@
 import java.util.Scanner;
 
-public class Numbers{
+public class Numbers {
     // Static variable to store the input array
     static int[] arrayInput;
 
-    public static void main(String[] args)
- 
-{
+    public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-        System.out.println("Enter the number of elements: ");
+        System.out.println("Enter the number of elements:");
         int n = input.nextInt();
 
         arrayInput = new int[n];
-        System.out.println("Enter the elements of the array: ");
+        System.out.println("Enter the elements of the array:");
 
         for (int i = 0; i < n; i++) {
             arrayInput[i] = input.nextInt();
         }
 
-        countFrequency(arrayInput, n);
+        System.out.println("Enter the value of K:");
+        int k = input.nextInt();
+
+        findTopKFrequentNumbers(k);
     }
 
-    public static void countFrequency(int[] arrayInput, int n)
- 
-{
-        boolean[] visited = new
- 
-boolean[n];
-        Arrays.fill(visited, false);
+    // Static method to find top K frequent numbers
+    public static void findTopKFrequentNumbers(int K) {
+        int[] frequencies = new int[1000]; // Assuming the input numbers are within a reasonable range
 
-        for (int i = 0; i < n; i++) {
-            if (visited[i]) {
-                continue;
-            }
+        for (int num : arrayInput) {
+            frequencies[num]++;
+        }
 
-            int count = 1;
+        for (int i = 0; i < K; i++) {
+            int maxFreq = -1;
+            int maxFreqNum = -1;
 
-            for (int j = i + 1; j < n; j++) {
-                if (arrayInput[i] == arrayInput[j]) {
-                    visited[j] = true;
-                    count++;
+            for (int j = 0; j < frequencies.length; j++) {
+                if (frequencies[j] > maxFreq || (frequencies[j] == maxFreq && j > maxFreqNum)) {
+                    maxFreq = frequencies[j];
+                    maxFreqNum = j;
                 }
             }
 
-            System.out.println(arrayInput[i] + " : " + count);
+            if (maxFreqNum != -1) {
+                System.out.print(maxFreqNum + " ");
+                frequencies[maxFreqNum] = -1; // Mark as processed
+            }
         }
     }
+}
 
+
+   
