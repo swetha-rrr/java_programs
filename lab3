@@ -1,0 +1,205 @@
+question 1:
+
+import java.util.Scanner;
+// Base class or parent class
+class Employee {
+    // Employee has three fields
+    int employeeID;
+    String employeename;
+    String designation;
+
+    // The employee class has one constructor
+    public Employee(int employeeID, String employeename, String designation) {
+        this.employeeID = employeeID;
+        this.employeename = employeename;
+        this.designation = designation;
+    }
+
+    // Creating method to display the values
+    public void displayemployee() {
+        System.out.println("Employee ID: " + employeeID);
+        System.out.println("Employee Name: " + employeename);
+        System.out.println("Designation: " + designation);
+    }
+
+    // Creating method called calculatebonus which later overridden in the derived class
+    public void calculatebonus() {
+        System.out.println("Bonus for " + employeename);
+    }
+
+    public double calculateWeeklySalary() {
+        // Default weekly salary calculation logic (can be overridden in subclasses)
+        return 0.0;
+    }
+
+    public double calculateAnnualEarnings() {
+        // Default annual earnings calculation logic (can be overridden in subclasses)
+        return 0.0;
+    }
+}
+
+// Creating subclass or child class
+class HourlyEmployee extends Employee {
+    // The hourly employee has two fields
+    double hourlyrate;
+    int hoursworked;
+
+    // Creating the constructor
+    public HourlyEmployee(int employeeID, String employeename, String designation, double hourlyrate, int hoursworked) {
+        // Using the super keyword to immediately call the parent class in this case class Employee
+        super(employeeID, employeename, designation);
+        this.hourlyrate = hourlyrate;
+        this.hoursworked = hoursworked;
+    }
+
+    // Override the method given in the base class to calculate weekly salary
+    @Override
+    public double calculateWeeklySalary() {
+        return hourlyrate * hoursworked;
+    }
+
+    @Override
+    public double calculateAnnualEarnings() {
+        return calculateWeeklySalary() * 52; // Assuming 52 weeks in a year
+    }
+}
+
+// Derived class or child class
+class SalariedEmployee extends Employee {
+    double monthlySalary;
+
+    // Creating the constructor
+    public SalariedEmployee(int employeeID, String employeename, String designation, double monthlySalary) {
+        super(employeeID, employeename, designation);
+        this.monthlySalary = monthlySalary;
+    }
+
+    @Override
+    public double calculateWeeklySalary() {
+        return monthlySalary / 4; // Assuming 4 weeks in a month
+    }
+
+    @Override
+    public double calculateAnnualEarnings() {
+        return monthlySalary * 12; // Assuming 12 months in a year
+    }
+}
+
+// Derived class from salaried employee
+ class ExecutiveEmployee extends SalariedEmployee {
+    double bonusPercentage;
+
+    // Creating constructor
+    public ExecutiveEmployee(int employeeID, String employeename, String designation, double monthlySalary,
+            double bonusPercentage) {
+        super(employeeID, employeename, designation, monthlySalary);
+        this.bonusPercentage = bonusPercentage;
+    }
+
+    // Overriding the calculate bonus from the employee class
+    
+    public void calculateBonus() {
+        // Override bonus calculation logic for executives
+        double bonus = (bonusPercentage / 100) * (calculateAnnualEarnings());
+        System.out.println("Bonus for Executive " + employeename + ": $" + bonus);
+    }
+}
+
+class PayrollSystem {
+    public static void main(String[] args) {
+        // Example usage
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter details for Hourly Employee:");
+        System.out.print("Employee ID: ");
+        int hourlyEmployeeID = scanner.nextInt();
+        System.out.print("Employee Name: ");
+        String hourlyEmployeeName = scanner.next();
+        System.out.print("Designation: ");
+        String hourlyEmployeeDesignation = scanner.next();
+        System.out.print("Hourly Rate: ");
+        double hourlyRate = scanner.nextDouble();
+        System.out.print("Hours Worked: ");
+        int hoursWorked = scanner.nextInt();
+
+        // Object creating for hourly employee
+        HourlyEmployee hourlyEmployee = new HourlyEmployee(hourlyEmployeeID, hourlyEmployeeName,
+                hourlyEmployeeDesignation, hourlyRate, hoursWorked);
+
+        System.out.println("\nHourly Employee Information:");
+        hourlyEmployee.displayemployee();
+        System.out.println("Weekly Salary: $" + hourlyEmployee.calculateWeeklySalary());
+        System.out.println("Annual Earnings: $" + hourlyEmployee.calculateAnnualEarnings());
+
+        System.out.println("\nEnter details for Salaried Employee:");
+        System.out.print("Employee ID: ");
+        int salariedEmployeeID = scanner.nextInt();
+        System.out.print("Employee Name: ");
+        String salariedEmployeeName = scanner.next();
+        System.out.print("Designation: ");
+        String salariedEmployeeDesignation = scanner.next();
+        System.out.print("Monthly Salary: ");
+        double monthlySalary = scanner.nextDouble();
+
+        // Object creating for salaried employee
+        SalariedEmployee salariedEmployee = new SalariedEmployee(salariedEmployeeID,
+                salariedEmployeeName, salariedEmployeeDesignation, monthlySalary);
+
+        System.out.println("\nSalaried Employee Information:");
+        salariedEmployee.displayemployee();
+        System.out.println("Weekly Salary: $" + salariedEmployee.calculateWeeklySalary());
+        System.out.println("Annual Earnings: $" + salariedEmployee.calculateAnnualEarnings());
+
+        System.out.println("\nEnter details for Executive Employee:");
+        System.out.print("Employee ID: ");
+        int executiveEmployeeID = scanner.nextInt();
+        System.out.print("Employee Name: ");
+        String executiveEmployeeName = scanner.next();
+        System.out.print("Designation: ");
+        String executiveEmployeeDesignation = scanner.next();
+        System.out.print("Monthly Salary: ");
+        double executiveMonthlySalary = scanner.nextDouble();
+        System.out.print("Bonus Percentage: ");
+        double bonusPercentage = scanner.nextDouble();
+
+        // Object creating for executive employee
+        ExecutiveEmployee executiveEmployee = new ExecutiveEmployee(executiveEmployeeID,
+                executiveEmployeeName, executiveEmployeeDesignation, executiveMonthlySalary,
+                bonusPercentage);
+
+        System.out.println("\nExecutive Employee Information:");
+        executiveEmployee.displayemployee();
+        System.out.println("Weekly Salary: $" + executiveEmployee.calculateWeeklySalary());
+        System.out.println("Annual Earnings: $" + executiveEmployee.calculateAnnualEarnings());
+        executiveEmployee.calculatebonus();
+    }
+}
+output:
+Enter details for Hourly Employee:
+Employee ID: 1
+Employee Name: ram
+Designation: manager
+Hourly Rate: 100
+Hours Worked: 8
+Hourly Employee Information:
+Employee ID: 1
+Employee Name: ramDesignation: managerWeekly Salary: $800.0Annual Earnings: $41600.0Enter details for Salaried Employee:Employee ID: 1
+Employee Name: mich
+Designation: worker
+Monthly Salary: 18000
+Salaried Employee Information:
+Employee ID: 1
+Employee Name: mich
+Designation: worker
+Weekly Salary: $4500.0
+Annual Earnings: $216000.0Enter details for Executive Employee:
+Employee ID: 1
+Employee Name: taylor
+Designation: design
+Monthly Salary: 45000
+Bonus Percentage: 5000
+Executive Employee Information:
+Employee ID: 1
+Employee Name: taylor
+Designation: design
+Weekly Salary: $11250.0Annual Earnings: $540000.0Bonus for taylor500
