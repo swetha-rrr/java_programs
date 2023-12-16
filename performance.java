@@ -26,24 +26,7 @@ public class Performance {
         System.out.println("Error: " + e.getMessage());
     }
 }
-
-    output:
-    Enter marks for 10 students:
-Student 1: 1
-Student 2: 3
-Student 3: 9
-Student 4: 56
-Student 5: 87
-Student 6: 98
-Student 7: 45
-Student 8: 98
-Student 9: 76
-Student 10: 78
-Results:
-Highest Mark: 98Least Mark: 1Mode: 98Frequency at Mode: 2
-
-
-    public int highestMark() {
+  public int highestMark() {
         int highest = marks[0];
 
  for (int i = 1; i < marks.length; i++) {
@@ -116,3 +99,18 @@ public int getFreqAtMode() {
         performance.display();
     }
 }
+output:
+Enter marks for 10 students:Student 1: 78
+Student 2: 70
+Student 3: 89
+Student 4: 90
+Student 5: 56
+Student 6: 77
+Student 7: 54
+Student 8: 87
+Student 9: 90
+Student 10: 98
+Results:
+Highest Mark: 98Least Mark: 54
+Mode: 90
+Frequency at Mode: 2
