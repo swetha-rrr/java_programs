@@ -1,0 +1,147 @@
+// Abstract class 'Robber'
+abstract class Robber {
+    // Creating a method to print "MscAI&Ml"
+    void RobbingClass() {
+        System.out.println("MscAI&ML");
+    }
+     //creating abstract methods so that we can call them in child class
+    abstract int RowHouses(int[] moneyInEachHouse);
+    abstract int RoundHouses(int[] moneyInEachHouse);
+    abstract int SquareHouse(int[] moneyInEachHouse);
+    abstract int MultiHouseBuilding(int[][] moneyInMultiHouse);
+    // method to print i love ml
+    void MachineLearning() {
+        System.out.println("I love machine learning");
+    }
+}
+
+// child class 'JavaProfessionalRobber' inheriting from 'Robber' main class or parent class
+class JavaProfessionalRobber extends Robber {
+
+    //now using those abstract methods in child class
+    @Override
+    int RowHouses(int[] moneyInEachHouse) {
+        int n = moneyInEachHouse.length;
+
+        if (n == 0) {
+            return 0;
+        }
+
+        int[] dp = new int[n];
+
+        dp[0] = moneyInEachHouse[0];
+        if (n > 1) {
+            dp[1] = Math.max(moneyInEachHouse[0], moneyInEachHouse[1]);
+        }
+
+        for (int i = 2; i < n; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + moneyInEachHouse[i]);
+        }
+
+        return dp[n - 1];
+    }
+
+    int RoundHouses(int[] moneyInEachHouse) {
+        int n = moneyInEachHouse.length;
+
+        if (n == 0) {
+            return 0;
+        }
+
+        int[] dp = new int[n];
+
+        dp[0] = moneyInEachHouse[0];
+        if (n > 1) {
+            dp[1] = Math.max(moneyInEachHouse[0], moneyInEachHouse[1]);
+        }
+
+        for (int i = 2; i < n; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + moneyInEachHouse[i]);
+        }
+
+        return dp[n - 1];
+    }
+
+    int SquareHouse(int[] moneyInEachHouse) {
+        int n = moneyInEachHouse.length;
+
+        if (n < 4) {
+            System.out.println("Error: Insufficient input for SquareHouse. At least 4 arrays are required.");
+            return 0;
+        }
+
+        int[] dp = new int[n];
+
+        dp[0] = moneyInEachHouse[0];
+
+        for (int i = 1; i < n; i++) {
+            int robCurrent = (i >= 2 ? dp[i - 2] : 0) + moneyInEachHouse[i];
+            int robDiagonal = (i >= 3 ? dp[i - 3] : 0) + moneyInEachHouse[i];
+            dp[i] = Math.max(dp[i - 1], Math.max(robCurrent, robDiagonal));
+        }
+
+        return dp[n - 1];
+    }
+
+    int MultiHouseBuilding(int[][] moneyInMultiHouse) {
+        int types = moneyInMultiHouse.length;
+
+        if (types == 0) {
+            return 0;
+        }
+
+        int housesPerType = moneyInMultiHouse[0].length;
+
+        int[][] dp = new int[types][housesPerType];
+
+        for (int i = 0; i < types; i++) {
+            dp[i][0] = moneyInMultiHouse[i][0];
+        }
+
+        for (int j = 1; j < housesPerType; j++) {
+            for (int i = 0; i < types; i++) {
+                dp[i][j] = Math.max(dp[i][j - 1], (i > 0 ? dp[i - 1][j - 1] : 0) + moneyInMultiHouse[i][j]);
+            }
+        }
+
+        return dp[types - 1][housesPerType - 1];
+    }
+}
+public class ma{
+public static void main(String[] args) {
+    // Creating an instance of JavaProfessionalRobber
+    JavaProfessionalRobber robber = new JavaProfessionalRobber();
+
+    // Test the implemented methods
+    robber.RobbingClass();
+    robber.MachineLearning();
+
+    int[] moneyInRowHouses = {1, 2, 3, 0};
+    int maxAmountRowHouses = robber.RowHouses(moneyInRowHouses);
+    System.out.println("Max Amount for Row Houses: " + maxAmountRowHouses);
+
+    int[] moneyInRoundHouses = {1, 2, 3, 4};
+    int maxAmountRoundHouses = robber.RoundHouses(moneyInRoundHouses);
+    System.out.println("Max Amount for Round Houses: " + maxAmountRoundHouses);
+
+    int[] moneyInSquareHouses = {5, 10, 2, 7};
+    int maxAmountSquareHouses = robber.SquareHouse(moneyInSquareHouses);
+    System.out.println("Max Amount for Square Houses: " + maxAmountSquareHouses);
+
+    int[][] moneyInMultiHouse = {
+        {5, 3, 8, 2},
+        {10, 12, 7, 6},
+        {4, 9, 11, 5},
+        {8, 6, 3, 7}
+    };
+    int maxAmountMultiHouse = robber.MultiHouseBuilding(moneyInMultiHouse);
+    System.out.println("Max Amount for Multi-Type Building: " + maxAmountMultiHouse);
+}
+}
+output:
+MscAI&ML
+I love machine learning
+Max Amount for Row Houses: 4
+Max Amount for Round Houses: 6
+Max Amount for Square Houses: 17
+Max Amount for Multi-Type Building: 35
