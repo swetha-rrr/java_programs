@@ -27,6 +27,21 @@ public class Performance {
     }
 }
 
+    output:
+    Enter marks for 10 students:
+Student 1: 1
+Student 2: 3
+Student 3: 9
+Student 4: 56
+Student 5: 87
+Student 6: 98
+Student 7: 45
+Student 8: 98
+Student 9: 76
+Student 10: 78
+Results:
+Highest Mark: 98Least Mark: 1Mode: 98Frequency at Mode: 2
+
 
     public int highestMark() {
         int highest = marks[0];
