@@ -1,0 +1,170 @@
+question 1:
+// BankInterface.java
+interface BankInterface {
+    double getBalance();
+    double getInterestRate();
+}
+// child class implementing parent interface
+class BankA implements BankInterface {
+    private double balance;
+    //constructor for bankA
+    BankA(double balance) {
+        this.balance = balance;
+    }
+@Override
+    public double getBalance() {
+        return balance;
+    }
+@Override
+    public double getInterestRate() {
+        return 0.07;
+    }
+}
+// child class bankB inherits parent class
+class BankB implements BankInterface {
+    private double balance;
+BankB(double balance) {
+        this.balance = balance;
+    }
+ @Override
+    public double getBalance() {
+        return balance;
+    }
+ @Override
+    public double getInterestRate() {
+        return 0.074;
+    }
+}
+// BankC inherits the parent class
+class BankC implements BankInterface {
+    private double balance;
+ BankC(double balance) {
+        this.balance = balance;
+    }
+ @Override
+    public double getBalance() {
+        return balance;
+    }
+ @Override
+    public double getInterestRate() {
+        return 0.079;
+    }
+}
+public class Main1{
+    public static void main(String[] args) {
+        // Deposit amounts into banks
+        BankInterface bankA = new BankA(10000);
+        BankInterface bankB = new BankB(150000);
+        BankInterface bankC = new BankC(200000);
+
+
+        // Display balance and interest rate for each bank
+        System.out.println("Bank A - Balance: " + bankA.getBalance() + " Interest Rate: " + bankA.getInterestRate());
+        System.out.println("Bank B - Balance: " + bankB.getBalance() + " Interest Rate: " + bankB.getInterestRate());
+        System.out.println("Bank C - Balance: " + bankC.getBalance() + " Interest Rate: " + bankC.getInterestRate());
+    }
+}
+
+output:
+
+output:
+Bank A - Balance: 10000.0 Interest Rate: 0.07
+Bank B - Balance: 150000.0 Interest Rate: 0.074
+Bank C - Balance: 200000.0 Interest Rate: 0.079
+PS F:\java programs> 
+
+
+question 2:
+import java.util.Scanner;
+// creating the i nterface called WaterConservationSystem
+interface WaterConservationSystem {
+    //method calculatetrappedwater datatype integer
+    int calculateTrappedWater(int[] blockHeights);
+}
+// abstract class rainyseasonconservation inherits main class
+abstract class RainySeasonConservation implements WaterConservationSystem {
+}
+// class cityblockconservation inherits rainyseasonconservation class
+class CityBlockConservation extends RainySeasonConservation {
+    @Override
+    public int calculateTrappedWater(int[] blockHeights) {
+        //here length is less than or equal to 2 because with 0 or 1 or 2 you cannot store water
+        if (blockHeights == null || blockHeights.length <= 2) {
+            return 0; // Not enough blocks to trap water
+        }
+
+        int n = blockHeights.length;
+        int[] leftMax = new int[n];
+        int[] rightMax = new int[n];
+// Calculate the maximum height to the left of each block and height of current block
+        leftMax[0] = blockHeights[0];
+        for (int i = 1; i < n; i++) {
+            leftMax[i] = Math.max(leftMax[i - 1], blockHeights[i]);
+        }
+// Calculate the maximum height to the right of each block mostly last one
+        rightMax[n - 1] = blockHeights[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            rightMax[i] = Math.max(rightMax[i + 1], blockHeights[i]);
+        }
+// Calculate trapped water volume
+        int trappedWater = 0;
+        for (int i = 0; i < n; i++) {
+            int minHeight = Math.min(leftMax[i], rightMax[i]);
+            trappedWater += Math.max(0, minHeight - blockHeights[i]);
+        }
+//Calculates the trapped water for the current block. It takes the maximum of 0 and the difference between the calculated minHeight and the height of the current block (blockHeights[i]). This ensures that negative values (indicating no trapped water) are not added to the total.
+        return trappedWater;
+    }
+}
+
+public class water {
+    public static void main(String[] args) {
+        CityBlockConservation conservationSystem = new CityBlockConservation();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the heights of the city blocks separated by spaces:");
+        
+        if (scanner.hasNextLine()) {
+            String input = scanner.nextLine();
+            String[] blockHeightsStr = input.split(" ");
+            int[] blockHeights = new int[blockHeightsStr.length];
+
+            for (int i = 0; i < blockHeightsStr.length; i++) {
+                blockHeights[i] = Integer.parseInt(blockHeightsStr[i]);
+            }
+
+            int result = conservationSystem.calculateTrappedWater(blockHeights);
+            System.out.println("Trapped Water Volume: " + result);
+        } else {
+            System.out.println("No input provided.");
+        }
+
+        scanner.close();
+    }
+}
+
+output:
+Enter the heights of the city blocks separated by spaces:
+1 2 4 6
+Trapped Water Volume: 0
+PS F:\java programs> java water
+Enter the heights of the city blocks separated by spaces:
+0 1 0
+Trapped Water Volume: 0
+PS F:\java programs> java water
+Enter the heights of the city blocks separated by spaces:
+3 0 0 4 0 2 0 4
+Trapped Water Volume: 16
+PS F:\java programs> java water
+Enter the heights of the city blocks separated by spaces:
+2 0 0 3 4
+Trapped Water Volume: 4
+PS F:\java programs> java water
+Enter the heights of the city blocks separated by spaces:
+1 0 2 0 1
+Trapped Water Volume: 2
+PS F:\java programs> 
+
+
+
+
