@@ -1,0 +1,86 @@
+question1:
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Lab6_1new {
+
+    private static int n;
+    private static int sum;
+    private static int[] coins;
+    private static List<List<Integer>> result;
+
+    public static void main(String[] args) {
+        takeUserInput();
+
+        result = new ArrayList<>();
+        result.add(new ArrayList<>()); // Initial combination with no coins
+
+        Thread thread1 = new Thread(new CombinationCalculator(0, sum / 2));
+        Thread thread2 = new Thread(new CombinationCalculator(sum / 2 + 1, sum));
+
+        thread1.start();
+        thread2.start();
+
+        try {
+            thread1.join();
+            thread2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Number of ways to make the sum " + sum + " with coins " + java.util.Arrays.toString(coins) + ": " + result.size());
+
+        System.out.println("Combinations:");
+        for (List<Integer> combination : result) {
+            System.out.println(combination);
+        }
+    }
+
+    private static void takeUserInput() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of coins (n): ");
+        n = scanner.nextInt();
+
+        coins = new int[n];
+        System.out.println("Enter the values of the coins:");
+        for (int i = 0; i < n; i++) {
+            System.out.print("Coin " + (i + 1) + ": ");
+            coins[i] = scanner.nextInt();
+        }
+
+        System.out.print("Enter the target sum: ");
+        sum = scanner.nextInt();
+
+        scanner.close();
+    }
+
+    private static class CombinationCalculator implements Runnable {
+        private final int startAmount;
+        private final int endAmount;
+
+        public CombinationCalculator(int startAmount, int endAmount) {
+            this.startAmount = startAmount;
+            this.endAmount = endAmount;
+        }
+
+        @Override
+        public void run() {
+            for (int amount = startAmount; amount <= endAmount; amount++) {
+                for (int coinIndex = 0; coinIndex < coins.length; coinIndex++) {
+                    int coinValue = coins[coinIndex];
+                    if (amount >= coinValue) {
+                        synchronized (result) {
+                            for (List<Integer> combination : new ArrayList<>(result.get(amount - coinValue))) {
+                                List<Integer> newCombination = new ArrayList<>(combination);
+                                newCombination.add(coinValue);
+                                result.add(newCombination);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
