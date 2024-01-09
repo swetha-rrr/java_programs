@@ -1,0 +1,160 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.TreeSet;
+
+public class Lab7 {
+    public static void main(String[] args) {
+        // Implementation of ArrayList for managing customers
+        CustomerManagementSystem customerManagementSystem = new CustomerManagementSystem();
+
+        // Adding customers to the ArrayList
+        Customer customer1 = new Customer("C1001", "John Doe");
+        Customer customer2 = new Customer("C1002", "Jane Smith");
+
+        customerManagementSystem.addCustomer(customer1);
+        customerManagementSystem.addCustomer(customer2);
+
+        // Updating customer information
+        customerManagementSystem.updateCustomer(0, new Customer("C1001", "Updated John Doe"));
+
+        // Implementation of HashMap for managing products
+        ProductCatalog productCatalog = new ProductCatalog();
+
+        // Adding products to the HashMap
+        Product product1 = new Product("P001", "Laptop");
+        Product product2 = new Product("P002", "Smartphone");
+
+        productCatalog.addProduct("P001", product1);
+        productCatalog.addProduct("P002", product2);
+
+        // Retrieving product information
+        Product retrievedProduct = productCatalog.getProduct("P001");
+        System.out.println("Retrieved Product: " + retrievedProduct);
+
+        // Implementation of HashSet for managing unique products associated with each customer
+        CustomerProductAssociation customerProductAssociation = new CustomerProductAssociation();
+
+        // Adding unique products to the HashSet for a customer
+        customerProductAssociation.addProduct(product1);
+        customerProductAssociation.addProduct(product2);
+
+        // Implementation of TreeSet for sorting customers
+        SortedCustomerList sortedCustomerList = new SortedCustomerList();
+
+        // Adding customers to the TreeSet for sorted access
+        sortedCustomerList.addCustomer(new Customer("C1003", "Alice Johnson"));
+        sortedCustomerList.addCustomer(new Customer("C1004", "Bob Williams"));
+
+        // Additional operations as needed
+    }
+}
+
+class Customer implements Comparable<Customer> {
+    private String customerId;
+    private String customerName;
+
+    public Customer(String customerId, String customerName) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+    }
+
+    // Additional methods and details for the Customer class can be added as needed
+
+    @Override
+    public int compareTo(Customer otherCustomer) {
+        // Define the natural ordering based on customer IDs, for example
+        return this.customerId.compareTo(otherCustomer.customerId);
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId='" + customerId + '\'' +
+                ", customerName='" + customerName + '\'' +
+                '}';
+    }
+}
+
+class Product {
+    private String productId;
+    private String productName;
+
+    public Product(String productId, String productName) {
+        this.productId = productId;
+        this.productName = productName;
+    }
+
+    
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId='" + productId + '\'' +
+                ", productName='" + productName + '\'' +
+                '}';
+    }
+}
+
+class CustomerManagementSystem {
+    private ArrayList<Customer> customerList;
+
+    public CustomerManagementSystem() {
+        customerList = new ArrayList<>();
+    }
+
+    public void addCustomer(Customer customer) {
+        customerList.add(customer);
+    }
+
+    public void updateCustomer(int index, Customer updatedCustomer) {
+        customerList.set(index, updatedCustomer);
+    }
+
+    
+}
+
+class ProductCatalog {
+    private HashMap<String, Product> productMap;
+
+    public ProductCatalog() {
+        productMap = new HashMap<>();
+    }
+
+    public void addProduct(String productId, Product product) {
+        productMap.put(productId, product);
+    }
+
+    public Product getProduct(String productId) {
+        return productMap.get(productId);
+    }
+
+    
+}
+
+class CustomerProductAssociation {
+    private HashSet<Product> uniqueProducts;
+
+    public CustomerProductAssociation() {
+        uniqueProducts = new HashSet<>();
+    }
+
+    public void addProduct(Product product) {
+        uniqueProducts.add(product);
+    }
+
+}
+
+class SortedCustomerList {
+    private TreeSet<Customer> sortedCustomers;
+
+    public SortedCustomerList() {
+        sortedCustomers = new TreeSet<>();
+    }
+
+    public void addCustomer(Customer customer) {
+        sortedCustomers.add(customer);
+    }
+
+}
+
